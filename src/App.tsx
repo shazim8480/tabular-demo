@@ -3,9 +3,9 @@ import { TableDemo } from "./components/table-demo";
 
 function App() {
   return (
-    <div>
-      <TableDemo />
-    </div>
+    // <div className="w-[900px]">
+    <TableDemo />
+    // </div>
   );
 }
 

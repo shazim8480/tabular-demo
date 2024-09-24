@@ -23,109 +23,80 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreVertical, Search, ChevronLeft, ChevronRight } from "lucide-react";
-
-const geoData = [
-  {
-    name: "coastal_regions.geojson",
-    author: "Sarah Thompson",
-    countries: ["de", "es", "se"],
-    size: "1.5MB",
-    date: "15.08.2024",
-  },
-  {
-    name: "urban_development_zones.geojson",
-    author: "Abram Westervelt",
-    countries: ["de", "es", "se"],
-    size: "1.5MB",
-    date: "15.08.2024",
-  },
-  {
-    name: "protected_areas.geojson",
-    author: "Ahmad Culhane",
-    countries: ["de", "es", "se"],
-    size: "1.5MB",
-    date: "15.08.2024",
-  },
-  {
-    name: "flood_risk_areas.geojson",
-    author: "Zaire George",
-    countries: ["de", "es", "se"],
-    size: "1.5MB",
-    date: "15.08.2024",
-  },
-  {
-    name: "earthquake_zones.geojson",
-    author: "Martin Bergson",
-    countries: ["de", "es", "se"],
-    size: "1.5MB",
-    date: "15.08.2024",
-  },
-  {
-    name: "population_density.geojson",
-    author: "Tatiana Rhiel Madsen",
-    countries: ["de", "es", "se"],
-    size: "1.5MB",
-    date: "15.08.2024",
-  },
-];
+import { geoData } from "@/lib/geoData";
+import { useCheckboxState } from "@/hooks/useCheckboxState";
 
 export function TableDemo() {
+  const {
+    checkedItems,
+    isHeaderChecked,
+    handleHeaderCheckboxChange,
+    handleCheckboxChange,
+  } = useCheckboxState(geoData.length);
+
   return (
-    <div className="container mx-auto py-10">
-      <div className="flex justify-between items-center mb-6">
+    <div className="container py-10 mx-auto">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold">Geo Data Library</h1>
-          <p className="text-sm text-gray-500">6 Services added</p>
+          <p className="text-sm text-left text-gray-500">6 Services added</p>
         </div>
         <div className="flex gap-4">
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-            <Input placeholder="Search by file name" className="pl-8 w-64" />
+            <Input placeholder="Search by file name" className="w-64 pl-8" />
           </div>
           <Button className="bg-purple-600 hover:bg-purple-700">Upload</Button>
         </div>
       </div>
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className="w-12">
-              <Checkbox />
-            </TableHead>
-            <TableHead>File Name</TableHead>
-            <TableHead>Author</TableHead>
-            <TableHead>Country</TableHead>
-            <TableHead>File Size</TableHead>
-            <TableHead>Upload Date</TableHead>
-            <TableHead className="w-12"></TableHead>
-          </TableRow>
+          {/* <TableRow> */}
+          <TableHead className="w-12 pl-4">
+            <Checkbox
+              onClick={handleHeaderCheckboxChange}
+              checked={isHeaderChecked}
+            />
+          </TableHead>
+          <TableHead>File Name</TableHead>
+          <TableHead>Author</TableHead>
+          <TableHead className="pl-3">Country</TableHead>
+          <TableHead>File Size</TableHead>
+          <TableHead>Upload Date</TableHead>
+          <TableHead className="w-12"></TableHead>
+          {/* </TableRow> */}
         </TableHeader>
         <TableBody>
-          {geoData.map((file) => (
+          {geoData.map((file, index) => (
             <TableRow key={file.name}>
-              <TableCell>
-                <Checkbox />
+              <TableCell className="pl-4">
+                <Checkbox
+                  onClick={() => handleCheckboxChange(index)}
+                  checked={checkedItems[index]}
+                />
               </TableCell>
-              <TableCell>{file.name}</TableCell>
-              <TableCell>{file.author}</TableCell>
-              <TableCell>
+              <TableCell className="pr-32 font-bold">{file.name}</TableCell>
+              <TableCell className="pr-12">{file.author}</TableCell>
+              <TableCell className="pr-12">
                 <div className="flex">
                   <img
-                    src={`../../assets/countries.svg`}
+                    className="object-contain w-[90px] h-[24px]"
+                    src={`/countries.png`}
                     alt={`countries-flag`}
-                    // className={`w-6 h-4 ${index > 0 ? "-ml-2" : ""}`}
                   />
-                  {file.countries.length > 3 && (
-                    <span className="ml-1 text-xs text-gray-500">+16</span>
-                  )}
                 </div>
               </TableCell>
-              <TableCell>{file.size}</TableCell>
-              <TableCell>{file.date}</TableCell>
+              <TableCell className="pl-4 pr-12 text-center text-[#5F6C79]">
+                {file.size}
+              </TableCell>
+              <TableCell className="pr-8 text-[#5F6C79] pl-3">
+                {file.date}
+              </TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon">
-                      <MoreVertical className="h-4 w-4" />
+                      <MoreVertical className="w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
@@ -139,8 +110,8 @@ export function TableDemo() {
           ))}
         </TableBody>
       </Table>
-      <div className="flex justify-between items-center mt-4">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-end gap-8 mt-4">
+        <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500">Rows per page:</span>
           <Select defaultValue="6">
             <SelectTrigger className="w-16">
@@ -153,14 +124,12 @@ export function TableDemo() {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-8">
           <span className="text-sm text-gray-500">6-10 of 11</span>
-          <Button variant="outline" size="icon" disabled>
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon">
-            <ChevronRight className="h-4 w-4" />
-          </Button>
+          <div className="flex items-center gap-4">
+            <ChevronLeft className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4" />
+          </div>
         </div>
       </div>
     </div>
