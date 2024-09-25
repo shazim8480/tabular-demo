@@ -46,12 +46,11 @@ export function TableDemo() {
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
             <Input placeholder="Search by file name" className="w-64 pl-8" />
           </div>
-          <Button className="bg-purple-600 hover:bg-purple-700">Upload</Button>
+          <Button className="bg-[#681A8D]">Upload</Button>
         </div>
       </div>
       <Table>
         <TableHeader>
-          {/* <TableRow> */}
           <TableHead className="w-12 pl-4">
             <Checkbox
               onClick={handleHeaderCheckboxChange}
@@ -61,10 +60,9 @@ export function TableDemo() {
           <TableHead>File Name</TableHead>
           <TableHead>Author</TableHead>
           <TableHead className="pl-3">Country</TableHead>
-          <TableHead>File Size</TableHead>
+          {/* <TableHead>File Size</TableHead> */}
           <TableHead>Upload Date</TableHead>
           <TableHead className="w-12"></TableHead>
-          {/* </TableRow> */}
         </TableHeader>
         <TableBody>
           {geoData.map((file, index) => (
@@ -86,9 +84,9 @@ export function TableDemo() {
                   />
                 </div>
               </TableCell>
-              <TableCell className="pl-4 pr-12 text-center text-[#5F6C79]">
+              {/* <TableCell className="pl-4 pr-12 text-center text-[#5F6C79]">
                 {file.size}
-              </TableCell>
+              </TableCell> */}
               <TableCell className="pr-8 text-[#5F6C79] pl-3">
                 {file.date}
               </TableCell>
